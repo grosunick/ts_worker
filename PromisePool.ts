@@ -1,4 +1,4 @@
-import {IJob, PromiseId, PromiseJob, PromiseMap} from './Interfaces'
+import {Job, PromiseId, PromiseJob, PromiseMap} from './Interfaces'
 
 export class PromisePool
 {
@@ -16,8 +16,8 @@ export class PromisePool
             this.promiseJobs.push(this.promiseMap[key])
     }
 
-    add(id: PromiseId, promise: Promise<PromiseId>) {
-        this.promiseMap[id] = promise
+    add(id: PromiseId, job: Job) {
+        this.promiseMap[id] = job();
         this.promiseJobs.push(this.promiseMap[id]);
     }
 

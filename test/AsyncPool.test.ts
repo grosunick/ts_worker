@@ -1,11 +1,11 @@
 import {AsyncPool} from "../AsyncPool";
 import {ArrayFetcher} from "../fetcher/ArrayFetcher"
-import {PromiseId} from "../Interfaces";
+import {Job} from "../Interfaces";
 
 const initQueue = () => {
-    let queue: Promise<PromiseId>[] = [];
+    let queue: Job[] = [];
     for (let i = 0; i < 100; i++)
-        queue.push(Promise.resolve(i));
+        queue.push(() => {return Promise.resolve(i)});
 
     return queue
 }

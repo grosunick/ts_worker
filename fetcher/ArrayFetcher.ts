@@ -1,12 +1,12 @@
 import {JobFetcher} from "../AsyncPool";
 import {PromisePool} from "../PromisePool";
-import {PromiseId} from "../Interfaces";
+import {Job} from "../Interfaces";
 
 export class ArrayFetcher implements JobFetcher
 {
-    private arr: Promise<PromiseId>[];
+    private arr: Job[];
 
-    constructor(arr: Promise<PromiseId>[]) {
+    constructor(arr: Job[]) {
         this.arr = arr;
     }
 
@@ -15,10 +15,10 @@ export class ArrayFetcher implements JobFetcher
             return false
 
         let id = this.arr.length - 1;
-        let promise = this.arr.pop()
+        let job = this.arr.pop()
 
-        if (promise)
-            pool.add(id, promise);
+        if (job)
+            pool.add(id, job);
 
         return true
     }
