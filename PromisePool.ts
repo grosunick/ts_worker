@@ -16,8 +16,8 @@ export class PromisePool
             this.promiseJobs.push(this.promiseMap[key])
     }
 
-    add(id: PromiseId, job: Job) {
-        this.promiseMap[id] = job();
+    add(id: PromiseId, job: PromiseJob) {
+        this.promiseMap[id] = job;
         this.promiseJobs.push(this.promiseMap[id]);
     }
 

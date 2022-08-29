@@ -1,9 +1,6 @@
 import {Config} from "./Config";
 import {PromisePool} from "./PromisePool";
-
-export interface JobFetcher {
-    nextJob(pool: PromisePool): boolean
-}
+import {JobFetcher} from "./Interfaces";
 
 class Stat {
     public maxThread = 0
@@ -15,8 +12,8 @@ export class AsyncPool
     private stat: Stat;
 
     constructor() {
-        this.pool = new PromisePool()
-        this.stat = new Stat()
+        this.pool = new PromisePool();
+        this.stat = new Stat();
     }
 
     /**
@@ -28,7 +25,7 @@ export class AsyncPool
     public addJobs(config: Config, fetcher: JobFetcher) {
         while (this.pool.length() < config.threadsCount) {
             if (!fetcher.nextJob(this.pool))
-                break
+                break;
         }
     }
 
@@ -37,7 +34,8 @@ export class AsyncPool
 
         while (this.pool.length()) {
             // waiting while the first job is finished
-            let id = await Promise.race(this.pool.getJobs())
+            let id = await Promise.race(this.pool.getJobs());
+            // console.log(id, this.pool.getJobs(), this.pool.getPromises())
             this.pool.delete(id) // delete finished job from pool
 
             this.addJobs(config, nextJob);
@@ -52,6 +50,6 @@ export class AsyncPool
     }
 
     getStat(): Stat {
-        return this.stat
+        return this.stat;
     }
 }

@@ -1,11 +1,11 @@
 import {AsyncPool} from "../AsyncPool";
-import {ArrayFetcher} from "../fetcher/ArrayFetcher"
+import {IterableFetcher} from "../IterableFetcher"
 import {Job} from "../Interfaces";
 
 const initQueue = () => {
     let queue: Job[] = [];
     for (let i = 0; i < 100; i++)
-        queue.push(() => {return Promise.resolve(i)});
+        queue.push(() => {return {id: i, promise: Promise.resolve(i)}});
 
     return queue
 }
@@ -17,7 +17,7 @@ describe('AsyncPool tests', () => {
         const pool = new AsyncPool();
         await pool.run(
             {threadsCount: 25},
-            new ArrayFetcher(queue)
+            new IterableFetcher(queue)
         );
 
         expect(pool.getStat().maxThread).toBe(25);

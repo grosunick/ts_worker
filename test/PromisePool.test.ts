@@ -8,8 +8,8 @@ describe('PromisePool tests', () => {
 
     test('add', () => {
         const pool = new PromisePool();
-        pool.add(1, () => {return Promise.resolve(1)});
-        pool.add(2, () => {return Promise.resolve(1)});
+        pool.add(1, Promise.resolve(1));
+        pool.add(2, Promise.resolve(1));
 
         expect(pool.length()).toBe(2);
         expect(pool.getPromises()).toEqual({1: Promise.resolve(1), 2: Promise.resolve(1)});
@@ -17,9 +17,9 @@ describe('PromisePool tests', () => {
 
     test('delete', () => {
         const pool = new PromisePool();
-        pool.add(1, () => {return Promise.resolve(1)});
-        pool.add(2, () => {return Promise.resolve(1)});
-        pool.add(3, () => {return Promise.resolve(1)});
+        pool.add(1, Promise.resolve(1));
+        pool.add(2, Promise.resolve(1));
+        pool.add(3, Promise.resolve(1));
 
         pool.delete(1);
 
